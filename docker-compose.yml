@@ -1,0 +1,11 @@
+services:
+  pg_auth:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - ./infrastructure/pg_auth:/var/lib/postgresql/data

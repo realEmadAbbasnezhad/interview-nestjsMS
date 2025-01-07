@@ -1,0 +1,41 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+  output          = "../generated/auth"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PG_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+
+  // *** timestamps ***
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // *** relations ***
+  sessions Session[] @relation()
+
+  @@map("users")
+}
+
+model Session {
+  id     Int @id @default(autoincrement())
+  userId Int
+
+  // *** timestamps ***
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // *** relations ***
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}

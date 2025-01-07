@@ -51,3 +51,9 @@ build/config\.gypi
 .npmrc
 pnpm-lock.yaml
 /.history
+
+# prisma
+/prisma/generated
+
+# output
+/dist

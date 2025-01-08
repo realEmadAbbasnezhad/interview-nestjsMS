@@ -10,4 +10,4 @@ async function bootstrap() {
 
   await app.listen(process.env.port ?? 3000);
 }
-bootstrap().then(() => console.log('Gateway is running'));
+bootstrap().then(() => console.log('Gateway is started!'));

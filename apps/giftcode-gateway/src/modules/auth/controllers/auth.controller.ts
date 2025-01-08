@@ -1,10 +1,12 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import {Controller, Post, Body, UseGuards} from '@nestjs/common';
+import {Anonymous} from "../providers/auth/auth.decorator";
 
 @Controller('auth')
 export class AuthController {
+    @Anonymous()
     @Post('signin')
     async signIn(@Body() signInDto: any) {
-        // Sign-in logic here
+        return {};
     }
 
     @Post('logout')

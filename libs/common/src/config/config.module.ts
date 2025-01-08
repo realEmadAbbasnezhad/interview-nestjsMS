@@ -3,7 +3,7 @@ import {
     ConfigService,
     ConfigModule as NestConfigModule,// due to conflict with our "ConfigModule"
 } from '@nestjs/config';
-import {ENV_SCHEMA} from "common/common/config/env.schema";
+import {ENV_SCHEMA} from "./env.schema";
 
 @Module({
     imports: [NestConfigModule.forRoot({validationSchema: ENV_SCHEMA})],

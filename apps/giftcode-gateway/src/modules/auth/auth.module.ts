@@ -1,10 +1,11 @@
+// OK!
+
 import {Module} from '@nestjs/common';
 import {ConfigModule} from "@common/config/config.module";
 import {AuthGuard} from "./providers/auth/auth.guard";
 import {JwtModule} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 import {AuthController} from "./controllers/auth.controller";
-import {UserController} from "./controllers/user.controller";
 import {AuthService} from "@gateway/modules/auth/providers/auth/auth.service";
 import {EncryptModule} from "@common/encrypt/encrypt.module";
 
@@ -16,7 +17,7 @@ import {EncryptModule} from "@common/encrypt/encrypt.module";
         },)],
 
     exports: [AuthGuard],
-    controllers: [AuthController, UserController],
+    controllers: [AuthController],
     providers: [AuthGuard, AuthService]
 })
 export class AuthModule {

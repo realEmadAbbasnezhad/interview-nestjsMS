@@ -1,3 +1,5 @@
+// OK!
+
 import {ConflictException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import {UserRepository} from '@gateway/repository/user.repository';
 import {HashService} from '@common/encrypt/providers/hash.service';

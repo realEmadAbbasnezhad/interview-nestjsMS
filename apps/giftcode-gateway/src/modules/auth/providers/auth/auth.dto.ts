@@ -1,15 +1,24 @@
+// OK!
+
 import {ApiProperty} from "@nestjs/swagger";
 import {IsString, IsNotEmpty, MinLength, Matches} from 'class-validator';
 
-export class JwtPayloadDto{
+export class JwtPayloadDto {
+    @ApiProperty({description: "user has access to admin routes", example: false})
     admin: boolean;
+
+    @ApiProperty({description: "username of user", example: "user0"})
+    username: string;
+
+    @ApiProperty({description: "id of user", example: 0})
+    sub: number;
 }
 
-export class SignupDto{
+export class SignupDto {
     @ApiProperty({description: "username of user, must be unique", example: "user0"})
     @IsString()
     @IsNotEmpty()
-    @Matches(/^[a-zA-Z0-9]+$/, { message: 'Username can only contain letters and numbers' })
+    @Matches(/^[a-zA-Z0-9]+$/, {message: 'Username can only contain letters and numbers'})
     username: string;
 
     @ApiProperty({description: "a strong password for your user", example: "password"})
@@ -19,7 +28,13 @@ export class SignupDto{
     password: string;
 }
 
+export class SigninDto extends SignupDto {
+}
+
 export class AuthResponseDto {
     @ApiProperty({description: "JWT token for user"})
     token: string;
+
+    @ApiProperty({description: "user information"})
+    user: JwtPayloadDto
 }

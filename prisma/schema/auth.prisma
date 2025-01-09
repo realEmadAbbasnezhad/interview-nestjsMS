@@ -1,3 +1,5 @@
+// OK!
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["prismaSchemaFolder"]
@@ -10,9 +12,10 @@ datasource db {
 }
 
 model User {
-  id            Int    @id @default(autoincrement())
-  username      String @unique
+  id            Int     @id @default(autoincrement())
+  username      String  @unique
   password_hash String
+  isAdmin       Boolean @default(false)
 
   // *** timestamps ***
   createdAt DateTime  @default(now())

@@ -1,3 +1,5 @@
+// OK!
+
 import {PrismaClient, User} from '@prisma/generated/auth';
 
 export abstract class UserRepository {
@@ -12,7 +14,7 @@ export abstract class UserRepository {
         return this.prisma.user.create({data: user});
     }
 
-    protected async getUser(id: number): Promise<User> {
-        return this.prisma.user.findUnique({where: {id}});
+    protected async getUserByUsername(username: string): Promise<User> {
+        return this.prisma.user.findUnique({where: {username}});
     }
 }

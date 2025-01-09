@@ -1,3 +1,5 @@
+// OK!
+
 import {ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus} from '@nestjs/common';
 import {Request, Response} from 'express';
 import {ExceptionDto, FinalExceptionDto} from '@gateway/providers/exception/exception.dto';
@@ -21,11 +23,11 @@ export class HttpExceptionsFilter implements ExceptionFilter {
             message: exceptionResponse['message'] || 'Internal server error',
         };
 
-        let message: string | { [key: string]: string } = errorResponse.message;
+        let message: string | { [key: string]: string | { [key: string]: string } } = errorResponse.message;
         if (errorResponse.validationErrors) {
-            let errors: { [key: string]: string } = {}
+            let errors: { [key: string]: string | { [key: string]: string } } = {}
             errorResponse.validationErrors.forEach((i) => {
-                errors[i.property] = i.toString();
+                errors[i.property] = i.constraints;
             });
             message = errors;
         }

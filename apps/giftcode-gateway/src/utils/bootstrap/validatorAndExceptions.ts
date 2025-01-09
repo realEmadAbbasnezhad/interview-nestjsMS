@@ -1,4 +1,4 @@
-//
+// OK!
 
 import {BadRequestException, INestApplication, ValidationPipe} from "@nestjs/common";
 import {ExceptionDto} from "@gateway/providers/exception/exception.dto";

@@ -1,3 +1,5 @@
+// OK!
+
 import {ValidationError} from "class-validator";
 
 export class ExceptionDto {
@@ -6,7 +8,7 @@ export class ExceptionDto {
 }
 
 export class FinalExceptionDto {
-    message: string | { [key: string]: string }
+    message: string | { [key: string]: string | { [key: string]: string } }
     timestamp: string
     path: string
 }

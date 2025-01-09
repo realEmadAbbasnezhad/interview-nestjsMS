@@ -1,3 +1,5 @@
+// OK!
+
 import {
     CanActivate,
     ExecutionContext, ForbiddenException,

@@ -23,6 +23,9 @@
       ],
       "@prisma/*": [
         "prisma/*"
+      ],
+      "@gateway/*": [
+        "apps/giftcode-gateway/src/*"
       ]
     }
   }

@@ -16,3 +16,13 @@ services:
       - "8001:8001"
     volumes:
       - ./infrastructure/redis:/data
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    volumes:
+      - ./infrastructure/rabbitmq:/var/lib/rabbitmq

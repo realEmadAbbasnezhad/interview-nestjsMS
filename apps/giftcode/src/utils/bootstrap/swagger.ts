@@ -6,7 +6,7 @@ export async function setupSwagger(app: INestApplication, config: ConfigService)
     const documentBuilder = new DocumentBuilder()
         .setTitle('Giftcode Gateway API')
         .setDescription('API documentation for the Giftcode Gateway')
-        .addBearerAuth(undefined, 'jwt')
+        .addBearerAuth()
         .build();
 
     const document = SwaggerModule.createDocument(app, documentBuilder);

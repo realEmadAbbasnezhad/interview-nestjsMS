@@ -1,13 +1,18 @@
-import { NestFactory } from '@nestjs/core';
-import { GiftcodeGatewayModule } from './giftcode-gateway.module';
+import {NestFactory} from '@nestjs/core';
+import {GiftcodeGatewayModule} from './giftcode-gateway.module';
 import {setup} from "./utils/bootstrap";
 import {INestApplication} from "@nestjs/common";
+import {ConfigService} from "@nestjs/config";
 
 async function bootstrap() {
-  const app: INestApplication = await NestFactory.create(GiftcodeGatewayModule);
+    const app: INestApplication = await NestFactory.create(GiftcodeGatewayModule);
+    let configService = app.get(ConfigService);
 
-  await setup(app);
+    await setup(app, configService);
 
-  await app.listen(process.env.port ?? 3000);
+    let port = configService.get<number>('PORT')
+    console.log(`gateway is listening at port: ${port}`);
+    await app.listen(port);
 }
+
 bootstrap().then(() => console.log('Gateway is started!'));

@@ -1,5 +1,5 @@
 services:
-  pg_auth:
+  postgres:
     image: postgres
     ports:
       - "5432:5432"
@@ -9,3 +9,8 @@ services:
       POSTGRES_DB: db
     volumes:
       - ./infrastructure/pg_auth:/var/lib/postgresql/data
+  #redis:
+  #  image: redislabs/redis
+  #  ports:
+  #    - "8443:8443"
+#

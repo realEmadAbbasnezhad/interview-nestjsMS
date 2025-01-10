@@ -1,20 +1,12 @@
-import { Module } from '@nestjs/common';
-import {ConfigService} from "@nestjs/config";
-import {ClientProxyFactory, Transport} from "@nestjs/microservices";
+import {Module} from '@nestjs/common';
+import {ConfigModule} from "@common/config/config.module";
+import {GiftcodeController} from "@giftcode/controller/giftcode.controller";
+import {GiftcodeService} from "@giftcode/providers/giftcode/giftcode.service";
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [
-    {
-      provide: 'GATEWAY_SERVICE',
-      useFactory: (configService: ConfigService) =>
-          ClientProxyFactory.create({
-            transport: Transport.TCP,
-            options: {port: configService.get<number>('GATEWAY_PORT')}
-          }),
-      inject: [ConfigService],
-    }
-  ]
+    imports: [ConfigModule],
+    controllers: [GiftcodeController],
+    providers: [GiftcodeService]
 })
-export class GiftcodeModule {}
+export class GiftcodeModule {
+}

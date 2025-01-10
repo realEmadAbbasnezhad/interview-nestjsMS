@@ -1,3 +1,5 @@
+// OK!
+
 import {Body, Controller, Get, Patch, Request, Post, Query} from "@nestjs/common";
 import {GiftcodeClaimDto, GiftcodeGenerateDto, GiftcodeGetDto} from "@gateway/providers/giftcode/giftcode.dto";
 import {GiftcodeService} from "@gateway/providers/giftcode/giftcode.service";
@@ -20,8 +22,8 @@ export class GiftcodeController {
     @ApiOperation({description: "get gift codes with their categories and claimers"})
     @Admin()
     @Get()
-    async get(@Query() body: GiftcodeGetDto) {
-        return this.giftcodeService.get(body);
+    async get(@Query() query: GiftcodeGetDto) {
+        return this.giftcodeService.get(query);
     }
 
     @ApiOperation({description: "get the categories with available codes"})
@@ -30,13 +32,13 @@ export class GiftcodeController {
         return this.giftcodeService.listCategories();
     }
 
-    @ApiOperation({description: "get gift codes that this user claimed"})
+    @ApiOperation({description: "claim a new code"})
     @Patch('claim')
     async claim(@Query() body: GiftcodeClaimDto, @Request() req: any) {
         return this.giftcodeService.claim(body, req.jwt.sub);
     }
 
-    @ApiOperation({description: "claim a new code"})
+    @ApiOperation({description: "get gift codes that this user claimed"})
     @Get('claim')
     async getMyClaim(@Request() req: any) {
         return this.giftcodeService.get({user: req.jwt.sub} as GiftcodeGetDto);

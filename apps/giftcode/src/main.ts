@@ -1,18 +1,23 @@
 import {NestFactory} from '@nestjs/core';
-import {GiftcodeGatewayModule} from './giftcode-gateway.module';
 import {setup} from "./utils/bootstrap";
-import {INestApplication} from "@nestjs/common";
+import { INestMicroservice} from "@nestjs/common";
 import {ConfigService} from "@nestjs/config";
+import {GiftcodeModule} from "./giftcode.module";
+import {Transport} from "@nestjs/microservices";
 
 async function bootstrap() {
-    const app: INestApplication = await NestFactory.create(GiftcodeGatewayModule);
-    let configService = app.get(ConfigService);
+    const app: INestMicroservice = await NestFactory.createMicroservice(GiftcodeModule,{
+        transport: Transport.TCP,
+        options: {
+            port: process.env.GIFTCODE_PORT,
+        },
+    });
 
+    const configService = app.get(ConfigService);
     await setup(app, configService);
 
-    let port = configService.get<number>('GATEWAY_PORT')
-    console.log(`gateway is listening at port: ${port}`);
-    await app.listen(port);
+    console.log(`Giftcode micro service is listening at port: ${process.env.GIFTCODE_PORT}`);
+    await app.listen();
 }
 
-bootstrap().then(() => console.log('Gateway is started!'));
+bootstrap().then(() => console.log('Giftcode micro service is started!'));

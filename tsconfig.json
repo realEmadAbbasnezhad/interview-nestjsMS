@@ -26,6 +26,9 @@
       ],
       "@gateway/*": [
         "apps/giftcode-gateway/src/*"
+      ],
+      "@giftcode/*": [
+        "apps/giftcode/src/*"
       ]
     }
   }

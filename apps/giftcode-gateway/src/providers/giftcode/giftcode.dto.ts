@@ -1,4 +1,6 @@
-import {IsBoolean, IsNotEmpty, IsNumber, IsOptional, Min} from "class-validator";
+// OK!
+
+import { IsBooleanString, IsNotEmpty, IsNumber, IsNumberString, IsOptional, Min} from "class-validator";
 import {ApiProperty} from "@nestjs/swagger";
 
 export class GiftcodeGenerateDto {
@@ -28,29 +30,29 @@ export class GiftcodeGenerateDto {
 
 export class GiftcodeGetDto {
     @ApiProperty({description: "category you want to filter"})
-    @IsNumber()
+    @IsNumberString()
     @IsOptional()
     category: number
 
     @ApiProperty({description: "claims happened by this user"})
-    @IsNumber()
+    @IsNumberString()
     @IsOptional()
     user: number
 
     @ApiProperty({description: "get info about this code"})
-    @IsNumber()
+    @IsNumberString()
     @IsOptional()
     code: string
 
     @ApiProperty({description: "return those only claimed or not"})
-    @IsBoolean()
+    @IsBooleanString()
     @IsOptional()
     claimed: boolean
 }
 
 export class GiftcodeClaimDto {
     @ApiProperty({description: "category you want to claim from"})
-    @IsNumber()
+    @IsNumberString()
     @IsNotEmpty()
     category: number
 }

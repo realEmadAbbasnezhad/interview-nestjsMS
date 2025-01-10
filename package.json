@@ -9,10 +9,13 @@
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start gitcode-gateway ",
-    "start:dev": "nest start gitcode-gateway --watch",
     "start:debug": "nest start gitcode-gateway --debug --watch",
     "start:prod": "node dist/apps/giftcode-gateway/main",
+
+    "start:dev": "npm run start:gateway || npm run start:giftcode",
     "start:gateway": "nest start giftcode-gateway --watch",
+    "start:giftcode": "nest start giftcode --watch",
+
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {

@@ -1,7 +1,11 @@
 import {EntityId, Repository, Schema} from 'redis-om';
 import {createClient, RedisClientType} from "redis";
 import {ConfigService} from "@nestjs/config";
-import {GiftcodeGenerateDto} from "@common/microservice/providers/giftcode/giftcode.dto";
+import {
+    GiftcodeClaimDto,
+    GiftcodeGenerateDto,
+    GiftcodeGetDto
+} from "@common/microservice/providers/giftcode/giftcode.dto";
 
 const giftcodeSchema = new Schema('giftcode', {
     category: {type: 'number', sortable: true},
@@ -50,5 +54,43 @@ export abstract class GiftcodeRepository {
             }
 
         return retVal;
+    }
+
+    protected async searchGiftcode(data: GiftcodeGetDto): Promise<Giftcode[]> {
+        let search = this.giftcodeRepository.search();
+
+        if (data.category != undefined) search = search.where('category').eq(data.category);
+        if (data.user != undefined) search = search.where('claimedBy').eq(data.user);
+
+        // I have no idea why this is not working
+        /*if (data.claimed != undefined) {
+            if (Boolean(data.claimed) == true) {
+                search = search.where('claimedBy').gte(0);
+                console.log("Claimed is true");
+            } else if (Boolean(data.claimed) == false) {
+                search = search.where('claimedBy').eq(-1);
+                console.log("Claimed is false");
+            }
+        }*/
+
+        let retVal: Giftcode[] = [];
+        (await search.return.all()).forEach(x => {// @ts-ignore
+            if (x[EntityId] === data.code || !data.code)
+                if (data.claimed == undefined || ((data['claimed'] as unknown === "true") == (x.claimedBy >= 0)))// @ts-ignore
+                    retVal.push({...x, code: x[EntityId]} as Giftcode)
+        })
+        return retVal;
+    }
+
+    protected async claimGiftcode(data: GiftcodeClaimDto): Promise<Giftcode> | null {
+        const availables = await this.giftcodeRepository.search().where('category').eq(data.category)
+            .where('claimedBy').eq(-1).return.all()
+        if (availables.length == 0) return null;
+
+        const random = availables[Math.floor(Math.random() * availables.length)];
+        random.claimedBy = data.user;
+
+        await this.giftcodeRepository.save(random);// @ts-ignore
+        return {...random, code: random[EntityId]} as Giftcode;
     }
 }

@@ -1,4 +1,4 @@
-import {IsBoolean, IsNotEmpty, IsNumber, IsOptional, Min} from "class-validator";
+import {IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, Min} from "class-validator";
 
 export class GiftcodeGenerateDto {
     @IsNumber()
@@ -24,25 +24,29 @@ export class GiftcodeGenerateDto {
 export class GiftcodeGetDto {
     @IsNumber()
     @IsOptional()
-    category: number
+    category: number | undefined
 
     @IsNumber()
     @IsOptional()
-    user: number
+    user: number | undefined
 
-    @IsNumber()
+    @IsString()
     @IsOptional()
-    code: string
+    code: string | undefined
 
     @IsBoolean()
     @IsOptional()
-    claimed: boolean
+    claimed: boolean | undefined
 }
 
 export class GiftcodeClaimDto {
     @IsNumber()
     @IsNotEmpty()
     category: number
+
+    @IsNumber()
+    @IsNotEmpty()
+    user: number
 }
 
 export class GiftcodeGetResponseDto {

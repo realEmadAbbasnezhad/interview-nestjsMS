@@ -26,22 +26,19 @@ export class GiftcodeService extends GiftcodeRepository {
     }
 
     async get(data: GiftcodeGetDto): Promise<GiftcodeGetResponseDto> {
-        return {
-            1: {
-                "ABC123": {claimedBy: 123, prize: 50},
-                "XYZ789": {claimedBy: null, prize: 75}
-            },
-            2: {
-                "LMN456": {claimedBy: 456, prize: 20}
-            }
-        };
+        let retVal: GiftcodeGetResponseDto = {};
+        (await this.searchGiftcode(data)).forEach(x => {
+            retVal[x.category] = retVal[x.category] ?? {};
+            retVal[x.category][x.code] = {claimedBy: x.claimedBy, prize: x.prize}
+        });
+
+        return retVal
     }
 
     async claim(data: GiftcodeClaimDto): Promise<GiftcodeGetResponseDto> {
-        return {
-            1: {
-                "ABC123": {claimedBy: 123, prize: 50}
-            }
-        };
+        let retVal = await this.claimGiftcode(data);
+
+        if (retVal == null) return {}
+        return {...retVal}
     }
 }

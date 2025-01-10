@@ -1,6 +1,6 @@
 // OK!
 
-import {Inject, Injectable} from "@nestjs/common";
+import {BadRequestException, HttpException, Inject, Injectable} from "@nestjs/common";
 import {ClientProxy} from "@nestjs/microservices";
 import {
     GiftcodeClaimDto,
@@ -15,6 +15,7 @@ import {
     GiftcodeClaimDto as MicroServiceGiftcodeClaimDto
 } from "@common/microservice/providers/giftcode/giftcode.dto"
 import {lastValueFrom} from "rxjs";
+import {ExceptionDto} from "@gateway/providers/exception/exception.dto";
 
 @Injectable()
 export class GiftcodeService {
@@ -32,8 +33,15 @@ export class GiftcodeService {
     }
 
     public async claim(data: GiftcodeClaimDto, user: number): Promise<GiftcodeGetResponseDto> {
-        return await lastValueFrom(
-            this.giftcodeMicroService.send({cmd: "giftcode.claim"}, data as MicroServiceGiftcodeClaimDto))
+        const retVal = await lastValueFrom(
+            this.giftcodeMicroService.send({cmd: "giftcode.claim"}, {
+                ...data,
+                user: user
+            } as MicroServiceGiftcodeClaimDto));
+        if (retVal[data.category] == undefined)
+            throw new BadRequestException({message: "category is not exist"} as ExceptionDto)
+
+        return retVal
     }
 
     public async listCategories(): Promise<GiftcodeGetCategoriesResponseDto> {

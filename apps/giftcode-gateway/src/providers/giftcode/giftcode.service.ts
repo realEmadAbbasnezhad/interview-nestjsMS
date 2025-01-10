@@ -1,6 +1,6 @@
 // OK!
 
-import {BadRequestException, HttpException, Inject, Injectable} from "@nestjs/common";
+import {BadRequestException, Inject, Injectable} from "@nestjs/common";
 import {ClientProxy} from "@nestjs/microservices";
 import {
     GiftcodeClaimDto,
@@ -41,7 +41,6 @@ export class GiftcodeService {
                 ...data,
                 user: user
             } as MicroServiceGiftcodeClaimDto));
-        console.log(retVal)
         if (retVal.code == undefined)
             throw new BadRequestException({message: "category is not exist or there is no available code"} as ExceptionDto)
 

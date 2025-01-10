@@ -4,19 +4,25 @@ import {
     GiftcodeGetDto,
     GiftcodeGenerateDto, GiftcodeGetResponseDto
 } from "@common/microservice/providers/giftcode/giftcode.dto";
+import {GiftcodeRepository} from "@giftcode/repository/giftcode.repository";
+import {ConfigService} from "@nestjs/config";
 
 @Injectable()
-export class GiftcodeService {
+export class GiftcodeService extends GiftcodeRepository {
+    public constructor(
+        private readonly configService1: ConfigService,
+    ) {
+        super(configService1);
+    }
+
     async generate(data: GiftcodeGenerateDto): Promise<GiftcodeGetResponseDto> {
-        return {
-            1: {
-                "ABC123": {claimedBy: null, prize: 50},
-                "XYZ789": {claimedBy: null, prize: 75}
-            },
-            2: {
-                "LMN456": {claimedBy: null, prize: 20}
-            }
-        };
+        let retVal: GiftcodeGetResponseDto = {};
+        (await this.createMultipleGiftcode(data)).forEach(x => {
+            retVal[x.category] = retVal[x.category] ?? {};
+            retVal[x.category][x.code] = {claimedBy: x.claimedBy, prize: x.prize}
+        });
+
+        return retVal
     }
 
     async get(data: GiftcodeGetDto): Promise<GiftcodeGetResponseDto> {

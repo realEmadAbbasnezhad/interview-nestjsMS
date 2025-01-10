@@ -9,8 +9,14 @@ services:
       POSTGRES_DB: db
     volumes:
       - ./infrastructure/pg_auth:/var/lib/postgresql/data
-  #redis:
-  #  image: redislabs/redis
-  #  ports:
-  #    - "8443:8443"
-#
+  redis:
+    image: redislabs/redis
+    cap_add:
+      - SYS_RESOURCE
+    ports:
+      - "8443:8443"
+      - "9443:9443"
+      - "12000:12000"
+    volumes:
+      - ./infrastructure/redis/persist:/var/opt/redislabs/persist
+      - ./infrastructure/redis/tmp:/var/opt/redislabs/tmp

@@ -7,7 +7,7 @@ import {
 
 @Injectable()
 export class GiftcodeService {
-    async generate(body: GiftcodeGenerateDto): Promise<GiftcodeGetResponseDto> {
+    async generate(data: GiftcodeGenerateDto): Promise<GiftcodeGetResponseDto> {
         return {
             1: {
                 "ABC123": {claimedBy: null, prize: 50},
@@ -19,7 +19,7 @@ export class GiftcodeService {
         };
     }
 
-    async get(body: GiftcodeGetDto): Promise<GiftcodeGetResponseDto> {
+    async get(data: GiftcodeGetDto): Promise<GiftcodeGetResponseDto> {
         return {
             1: {
                 "ABC123": {claimedBy: 123, prize: 50},
@@ -31,7 +31,7 @@ export class GiftcodeService {
         };
     }
 
-    async claim(body: GiftcodeClaimDto): Promise<GiftcodeGetResponseDto> {
+    async claim(data: GiftcodeClaimDto): Promise<GiftcodeGetResponseDto> {
         return {
             1: {
                 "ABC123": {claimedBy: 123, prize: 50}

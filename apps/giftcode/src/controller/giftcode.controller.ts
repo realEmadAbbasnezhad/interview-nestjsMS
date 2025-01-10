@@ -1,3 +1,5 @@
+// OK!
+
 import {Controller} from '@nestjs/common';
 import {MessagePattern, Payload} from '@nestjs/microservices';
 import {GiftcodeService} from '@giftcode/providers/giftcode/giftcode.service';

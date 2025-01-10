@@ -8,6 +8,7 @@ import {ConfigService} from "@nestjs/config";
 import {AuthController} from "./controllers/auth.controller";
 import {AuthService} from "@gateway/modules/auth/providers/auth/auth.service";
 import {EncryptModule} from "@common/encrypt/encrypt.module";
+import {ClientProxyFactory, Transport} from "@nestjs/microservices";
 
 @Module({
     imports: [ConfigModule, EncryptModule,
@@ -18,7 +19,19 @@ import {EncryptModule} from "@common/encrypt/encrypt.module";
 
     exports: [AuthGuard],
     controllers: [AuthController],
-    providers: [AuthGuard, AuthService]
+    providers: [
+        {
+            provide: 'LOGGER_SERVICE',
+            useFactory: (configService: ConfigService) =>
+                ClientProxyFactory.create({
+                    transport: Transport.TCP,
+                    options: {port: configService.get<number>('LOGGER_PORT')}
+                }),
+            inject: [ConfigService],
+        },
+
+        AuthGuard, AuthService
+    ]
 })
 export class AuthModule {
 }

@@ -1,11 +1,18 @@
 import {Controller} from '@nestjs/common';
-import {MessagePattern} from '@nestjs/microservices';
+import {Ctx, MessagePattern, Payload, RmqContext} from '@nestjs/microservices';
 import {LoggerDto, LoggerGetDto} from "@common/microservice/providers/logger/logger.dto";
 
 @Controller()
 export class LoggerController {
     @MessagePattern({cmd: 'logger.get'})
-    async get(data: LoggerGetDto) {
+    async get(@Payload()data: LoggerGetDto, @Ctx() context: RmqContext) {
+
+
+        const channel = context.getChannelRef();
+        const originalMsg = context.getMessage();
+
+        channel.ack(originalMsg);
+
         return {
             messages: [
                 {
@@ -18,7 +25,7 @@ export class LoggerController {
     }
 
     @MessagePattern({cmd: 'logger.log'})
-    async log(data: LoggerDto) {
+    async log(@Payload()data: LoggerDto, @Ctx() context: RmqContext) {
         console.log(data);
     }
 }

@@ -19,7 +19,7 @@ import {ClientProxyFactory, Transport} from "@nestjs/microservices";
                         urls: [configService.get<number>('RMQ_URL')],
                         queue: configService.get<number>('LOGGER_RMQ_QUEUE'),
                         queueOptions: {
-                            durable: false
+                            durable: true
                         },
                     },
                 }),

@@ -42,7 +42,7 @@ export abstract class GiftcodeRepository {
         const lastCategory: number = lastCategorySearch ? lastCategorySearch.category : 0;
 
         const retVal: Giftcode[] = [];
-        for (let i = lastCategory; i < data.numberOfCategories + lastCategory; i++)
+        for (let i = lastCategory; i < data.numberOfCategories + lastCategory - 1; i++)
             for (let j = 0; j < data.numberOfCodes; j++) {
                 const giftcode = {
                     claimedBy: -1, category: i,

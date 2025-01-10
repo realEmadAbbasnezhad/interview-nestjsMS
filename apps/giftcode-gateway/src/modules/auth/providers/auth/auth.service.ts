@@ -31,13 +31,13 @@ export class AuthService extends UserRepository {
         }
 
         const payload = {username: newUser.username, sub: newUser.id, admin: newUser.isAdmin} as JwtPayloadDto;
-        return {token: await this.jwtService.sign(payload), user: payload} as AuthResponseDto;
+        return {token: this.jwtService.sign(payload), user: payload} as AuthResponseDto;
     }
 
     public async signin(data: SigninDto): Promise<AuthResponseDto> {
         let user: User = undefined;
         try {
-            user = await this.getUserByUsername(data.username);
+            user = await this.getUserByUsername({username: data.username});
         } catch (err) {
             throw err;
         }

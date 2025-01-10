@@ -1,0 +1,27 @@
+model Wallet {
+  id      Int @id @default(autoincrement())
+  balance Int @default(0)
+
+  // *** timestamps ***
+  updatedAt DateTime @updatedAt
+
+  // *** relations ***
+  user         User          @relation(fields: [id], references: [id])
+  transactions Transaction[]
+
+  @@map("wallets")
+}
+
+model Transaction {
+  id        Int @id @default(autoincrement())
+  wallet_id Int
+  amount    Int
+
+  // *** timestamps ***
+  createdAt DateTime @default(now())
+
+  // *** relations ***
+  wallet Wallet @relation(fields: [wallet_id], references: [id])
+
+  @@map("transactions")
+}

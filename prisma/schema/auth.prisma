@@ -22,5 +22,8 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  //*** relations ***
+  wallet Wallet? @relation()
+
   @@map("users")
 }

@@ -51,7 +51,7 @@ export class GiftcodeGetDto {
 }
 
 export class GiftcodeClaimDto {
-    @ApiProperty({description: "category you want to claim from", required: false})
+    @ApiProperty({description: "category you want to claim from"})
     @IsNumberString()
     @IsNotEmpty()
     category: number

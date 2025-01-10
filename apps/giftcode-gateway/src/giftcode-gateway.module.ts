@@ -5,6 +5,8 @@ import {ConfigService} from "@nestjs/config";
 import { ConfigModule } from '@common/config/config.module';
 import {GiftcodeController} from "@gateway/controllers/giftcode.controller";
 import {GiftcodeService} from "@gateway/providers/giftcode/giftcode.service";
+import {WalletController} from "@gateway/controllers/wallet.controller";
+import {WalletService} from "@gateway/providers/wallet/wallet.service";
 
 @Module({
     imports: [AuthModule, ConfigModule],
@@ -19,10 +21,10 @@ import {GiftcodeService} from "@gateway/providers/giftcode/giftcode.service";
             inject: [ConfigService],
         },
 
-        GiftcodeService
+        GiftcodeService, WalletService
     ],
 
-    controllers:[GiftcodeController]
+    controllers:[GiftcodeController, WalletController]
 })
 export class GiftcodeGatewayModule {
 }

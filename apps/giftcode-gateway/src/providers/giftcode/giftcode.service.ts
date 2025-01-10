@@ -16,10 +16,13 @@ import {
 } from "@common/microservice/providers/giftcode/giftcode.dto"
 import {lastValueFrom} from "rxjs";
 import {ExceptionDto} from "@gateway/providers/exception/exception.dto";
+import {WalletService} from "@gateway/providers/wallet/wallet.service";
 
 @Injectable()
 export class GiftcodeService {
-    public constructor(@Inject('GIFTCODE_SERVICE') private readonly giftcodeMicroService: ClientProxy) {
+    public constructor(
+        @Inject('GIFTCODE_SERVICE') private readonly giftcodeMicroService: ClientProxy,
+        private readonly walletService: WalletService) {
     }
 
     public async generate(data: GiftcodeGenerateDto): Promise<GiftcodeGetResponseDto> {
@@ -38,8 +41,11 @@ export class GiftcodeService {
                 ...data,
                 user: user
             } as MicroServiceGiftcodeClaimDto));
-        if (retVal[data.category] == undefined)
-            throw new BadRequestException({message: "category is not exist"} as ExceptionDto)
+        console.log(retVal)
+        if (retVal.code == undefined)
+            throw new BadRequestException({message: "category is not exist or there is no available code"} as ExceptionDto)
+
+        await this.walletService.newTransaction(retVal.prize as number, user)
 
         return retVal
     }

@@ -11,4 +11,5 @@ export const ENV_SCHEMA = Joi.object({
     LOGGER_PORT: Joi.number().required(),
     LOGGER_RMQ_QUEUE: Joi.string().required(),
     RMQ_URL: Joi.string().required(),
+    MONGO_URL: Joi.string().required(),
 } as Joi.SchemaMap);

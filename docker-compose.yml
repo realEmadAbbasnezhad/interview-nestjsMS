@@ -26,3 +26,11 @@ services:
       RABBITMQ_DEFAULT_PASS: password
     volumes:
       - ./infrastructure/rabbitmq:/var/lib/rabbitmq
+  mongo:
+    image: mongo:4.4
+    environment:
+      MONGO_INITDB_DATABASE: db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./infrastructure/mongo:/data/db
